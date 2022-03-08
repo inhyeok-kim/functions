@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable</title>
+    <style>
+      .wrapper {
+        display: flex;
+        flex-direction: row;
+        height: fit-content;
+      }
+      .card-list{
+        display: flex;
+        flex: auto;
+        height: fit-content;
+        background-color: lightgray;
+        flex-direction: column;
+        margin: 0px 10px 0px 10px;
+        padding : 10px;
+        flex-basis: 0px;
+      }
+      .card{
+        padding : 10px;
+        background-color: white;
+        box-shadow: 0px 0px 4px -1px grey;
+        border-radius: 3px;
+        margin-bottom : 5px;
+      }
+      .card-margin{
+        height : 5px;
+      }
+      #card-drag-direction{
+        background-color: grey;
+      }
+      .mb0{
+        margin-bottom: 0px;
+      }
+    </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card-list">
+      <div class="card-margin"></div>
+      <div class="card" draggable="true" id="card01">
+        card01
+      </div>
+    </div>
+    <div class="card-list">
+      <div class="card-margin"></div>
+      <div class="card" draggable="true" id="card02">
+        card02
+      </div>
+    </div>
+    <div class="card-list">
+      <div class="card-margin"></div>
+      <div class="card" draggable="true" id="card03">
+        card03
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selected = "";
+    function dragstart_handler(ev) {
+      selected = ev.target.id;
+      ev.dataTransfer.setDragImage(ev.target, 10,10);
+    }
+
+    function dragend_handler(ev) {
+      if(document.getElementById('card-drag-direction')){
+        let margin = document.getElementById('card-drag-direction');
+        const data = selected;
+        selected = "";
+        if(margin.nextElementSibling){
+          margin.parentNode.insertBefore(document.getElementById(data),margin.nextElementSibling);
+        } else {
+          margin.parentNode.appendChild(document.getElementById(data));
+        }
+      }
+
+      if(document.getElementById('card-drag-direction')){
+        let margin = document.getElementById('card-drag-direction');
+        if(margin.previousElementSibling){
+          margin.remove();
+        } else {
+          margin.id = "";
+        }
+        let mb0 = document.querySelector('.card.mb0');
+        if(mb0){
+          mb0.classList.remove('mb0');
+        }
+      }
+    }
+    
+    Array.from(document.getElementsByClassName('card')).forEach(card=>{
+      card.addEventListener("dragstart", dragstart_handler);
+      card.addEventListener("dragend", dragend_handler);
+    });
+
+    Array.from(document.getElementsByClassName('card-list')).forEach(card=>{
+      card.addEventListener("dragover", dragover_handler);
+    });
+
+    function dragover_handler(ev) {
+      ev.preventDefault();
+      ev.dataTransfer.dropEffect = "move";
+
+      if(!selected){
+        return;
+      }
+
+      
+      if(ev.target.classList.contains("card")){
+        
+        let card = ev.target;
+        const ch = card.offsetHeight;
+        const my = ev.offsetY;
+
+        let margin = document.createElement('div');
+        margin.className = 'card-margin';
+        margin.id="card-drag-direction"
+
+        if(my > ch/2){
+          if(card.nextElementSibling){
+            if(card.nextElementSibling.className != "card-margin"){
+              if(document.getElementById('card-drag-direction')){
+                let margin = document.getElementById('card-drag-direction');
+                if(margin.previousElementSibling){
+                  margin.remove();
+                } else {
+                  margin.id = "";
+                }
+                let mb0 = document.querySelector('.card.mb0');
+                if(mb0){
+                  mb0.classList.remove('mb0');
+                }
+              }
+
+              card.classList.add('mb0');
+              card.parentNode.insertBefore(margin,card.nextElementSibling);
+            } 
+          } else {
+            if(document.getElementById('card-drag-direction')){
+              let margin = document.getElementById('card-drag-direction');
+              if(margin.previousElementSibling){
+                margin.remove();
+              } else {
+                margin.id = "";
+              }
+              let mb0 = document.querySelector('.card.mb0');
+              if(mb0){
+                  mb0.classList.remove('mb0');
+              }
+            }
+            card.classList.add('mb0');
+            card.parentNode.appendChild(margin);
+          }
+        } else {
+          if(card.previousElementSibling){
+            if(card.previousElementSibling.className == "card-margin"){
+              if(card.previousElementSibling.id != "card-drag-direction"){
+                if(document.getElementById('card-drag-direction')){
+                  let margin = document.getElementById('card-drag-direction');
+                  if(margin.previousElementSibling){
+                    margin.remove();
+                  } else {
+                    margin.id = "";
+                  }
+                  let mb0 = document.querySelector('.card.mb0');
+                  if(mb0){
+                    mb0.classList.remove('mb0');
+                  }
+                }
+                card.previousElementSibling.id="card-drag-direction";
+              }
+            } else {
+              if(document.getElementById('card-drag-direction')){
+                let margin = document.getElementById('card-drag-direction');
+                if(margin.previousElementSibling){
+                  margin.remove();
+                } else {
+                  margin.id = "";
+                }
+                let mb0 = document.querySelector('.card.mb0');
+                if(mb0){
+                  mb0.classList.remove('mb0');
+                }
+              }
+              card.previousElementSibling.classList.add('mb0');
+              card.parentNode.insertBefore(margin,card);
+            }
+          }
+        }
+      } else if(ev.target.classList.contains("card-list")){
+        let cardList = ev.target;
+        const clh = cardList.offsetHeight;
+        const my = ev.offsetY;
+
+        let margin = document.createElement('div');
+        margin.className = 'card-margin';
+        margin.id="card-drag-direction";
+
+        if(cardList.children.length == 1){
+          if(cardList.firstElementChild.id != 'card-drag-direction'){
+            if(document.getElementById('card-drag-direction')){
+              let margin = document.getElementById('card-drag-direction');
+              if(margin.previousElementSibling){
+                margin.remove();
+              } else {
+                margin.id = "";
+              }
+              let mb0 = document.querySelector('.card.mb0');
+              if(mb0){
+                mb0.classList.remove('mb0');
+              }
+            }
+            cardList.firstElementChild.id = "card-drag-direction";
+          }
+        } else {
+          if(my > clh/2){
+            if(cardList.lastElementChild.className != "card-margin"){
+              if(document.getElementById('card-drag-direction')){
+                let margin = document.getElementById('card-drag-direction');
+                if(margin.previousElementSibling){
+                  margin.remove();
+                } else {
+                  margin.id = "";
+                }
+                let mb0 = document.querySelector('.card.mb0');
+                if(mb0){
+                  mb0.classList.remove('mb0');
+                }
+              }
+              cardList.lastElementChild.classList.add("mb0");
+              cardList.appendChild(margin);
+            }
+          } else {
+            if(cardList.firstElementChild.id != "card-drag-direction"){
+              if(document.getElementById('card-drag-direction')){
+                let margin = document.getElementById('card-drag-direction');
+                if(margin.previousElementSibling){
+                  margin.remove();
+                } else {
+                  margin.id = "";
+                }
+                let mb0 = document.querySelector('.card.mb0');
+                if(mb0){
+                  mb0.classList.remove('mb0');
+                }
+              }
+            }
+            cardList.firstElementChild.id="card-drag-direction";
+          }
+        }
+      }
+
+    }
+
+  </script>
+</body>
+</html>
