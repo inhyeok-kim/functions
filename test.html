@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function loadDoc() {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    
+                    // gets the entire html file of the folder 'logpost' in this case and labels it thing
+                    thing = this.responseText
+                    searchFor = /.md</g
+                    a=0;
+                    b=0;
+
+                    console.log(thing);
+                   
+                }
+            };
+
+            xhttp.open("GET", "_post/", true);
+            xhttp.send();
+        }
+        loadDoc();
+    </script>
+</body>
+</html>
