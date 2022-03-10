@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carousel</title>
+    <style>
+        .carousel-container{
+            width: 500px;
+            height: 500px;
+            overflow: hidden;
+            margin: auto;
+            position: relative;
+        }
+        .carousel-container .carousel-slide{
+            display: flex;
+            transition: transform 0.5s;
+        }
+        .carousel-container .carousel-slide img{
+            width: 500px;
+            height: 500px;
+            object-fit: cover;
+        }
+        #prev{
+            position: absolute;
+            left : 20px;
+            top: calc(50% - 33px);
+            background: none;
+            border: none;
+            border-top: 3px solid white;
+            border-left: 3px solid white;
+            width: 40px;
+            height: 40px;
+            transform: rotateZ(-45deg);
+            z-index: 2;
+            cursor: pointer;
+        }
+        #next{
+            position: absolute;
+            right: 20px;
+            top: calc(50% - 33px);
+            background: none;
+            border: none;
+            border-top: 3px solid white;
+            border-right: 3px solid white;
+            width: 40px;
+            height: 40px;
+            transform: rotateZ(45deg);
+            z-index: 2;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel-container">
+        <button id="prev"></button>
+        <div class="carousel-slide">
+            <img src="./images/pic_4.jpg" alt="">
+            <img src="./images/pic_5.jpg" alt="">
+            <img src="./images/pic_6.jpg" alt="">
+        </div>
+        <button id="next"></button>
+    </div>
+
+    <script>
+        const next = document.getElementById('next');
+        const prev = document.getElementById('prev');
+        const container = document.querySelector(".carousel-container");
+        const slide = document.querySelector(".carousel-slide");
+        let slideSize = slide.childElementCount;
+        console.log(slideSize);
+        let index = 0;
+        const width = -500;
+
+        function slideImage(index){
+            slide.style.transform = `translateX(${width * index}px)`
+        }
+        next.addEventListener('click',()=>{
+            index = index < slideSize-1 ? index+1 : 0;
+            slideImage(index);
+        });
+        prev.addEventListener('click',()=>{
+            index = index > 0 ? index-1 : slideSize-1;
+            slideImage(index);
+        });
+    </script>
+</body>
+</html>
