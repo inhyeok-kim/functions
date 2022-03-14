@@ -11,9 +11,18 @@ let today = new Date();
 let currnetY = today.getFullYear();
 let currnetD = today.getDate();
 let currnetM = today.getMonth();
+let currInput;
 
 function openDatePicker(e){
-    console.log(e);
+    currInput = e.currentTarget;
+    const dpc = document.getElementById('datePickerContainer');
+    dpc.style.display = 'flex';
+
+}
+function closeDatePicker(){
+    currInput = null;
+    const dpc = document.getElementById('datePickerContainer');
+    dpc.style.display = 'none';
 }
 
 function createDatePickerContainer(){
@@ -25,7 +34,7 @@ function createDatePickerContainer(){
     dpc.style.height = '400px';
     dpc.style.boxSizing = 'border-box';
     dpc.style.border = '1px solid black';
-    dpc.style.display = 'flex';
+    dpc.style.display = 'none';
     dpc.style.flexWrap = 'wrap';
     let today = new Date();
     const start = today.setDate(0);
@@ -105,6 +114,9 @@ function createCalendar(){
         div.style.height = 'calc(90% / '+rowCnt+')';
         div.style.boxSizing = 'border-box';
         div.style.border = '1px solid black';
+        div.style.cursor='pointer';
+        let date = `${currnetY}-${currnetM < 9 ? '0' + (currnetM+1) : currnetM +1}-${i < 10 ? '0'+i : i}`;
+        div.addEventListener('click', ()=>{pickDate(date)});
         calc.append(div);
     }
     for(let i = 0 ; i < 6 - endDay; i++){
@@ -160,4 +172,9 @@ function setCurrentDate(year, month, date){
     currnetD = date;
     currnetM = month;
     currnetY = year;
+}
+
+function pickDate(date){
+    currInput.value = date;
+    closeDatePicker();
 }
