@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./calculator.js"></script>
+
+
+    <style>
+        .calculator-container{
+            width: 500px;
+            height: 700px;
+            border: 1px solid black;
+        }
+        .calculator-input-box{
+            width: 80%;
+            height: 10%;
+            border : 1px solid black;
+            margin : 5% 10%;
+            box-sizing: border-box;
+        }
+        .calculator-keypad{
+            width: 80%;
+            height: 80%;
+            border : 1px solid black;
+            margin : 0% 10%;
+        }
+        .calculator-keypad-table{
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+        }
+        .calculator-key{
+            width: 25%;
+            text-align: center;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+
+    </style>
+
+
+</head>
+<body>
+
+    <div class="calculator-container">
+        <div class="calculator-input-box">
+            
+        </div>
+        <div class="calculator-keypad">
+            <table class="calculator-keypad-table">
+                <tr>
+                    <td class="calculator-key">AC</td>
+                    <td class="calculator-key">±</td>
+                    <td class="calculator-key">%</td>
+                    <td class="calculator-key">÷</td>
+                </tr>
+                <tr>
+                    <td class="calculator-key">9</td>
+                    <td class="calculator-key">8</td>
+                    <td class="calculator-key">7</td>
+                    <td class="calculator-key">×</td>
+                </tr>
+                <tr>
+                    <td class="calculator-key">6</td>
+                    <td class="calculator-key">5</td>
+                    <td class="calculator-key">4</td>
+                    <td class="calculator-key">-</td>
+                </tr>
+                <tr>
+                    <td class="calculator-key">1</td>
+                    <td class="calculator-key">2</td>
+                    <td class="calculator-key">3</td>
+                    <td class="calculator-key">+</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="calculator-key">0</td>
+                    <td class="calculator-key">.</td>
+                    <td class="calculator-key">=</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
